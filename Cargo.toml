@@ -1,0 +1,17 @@
+[package]
+name = "SmartFund"
+version = "0.1.0"
+edition = "2024"
+description = "Smart Fund Advisor with AI"
+keywords = ["Fund", "AI", "Advisor"]
+repository = "https://github.com/seanmonstar/reqwest"
+documentation = "https://docs.rs/reqwest"
+authors = ["Bruce Wong <sean@seanmonstar.com>"]
+readme = "README.md"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+reqwest = { version = "0.12", features = ["json"] }
+tokio = { version = "1", features = ["full"] }
+serde_json = { version = "1.0", optional = true }
+http = "1.1"
