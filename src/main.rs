@@ -1,13 +1,37 @@
+use std::env;
 use std::io::{stdout, Write};
 pub mod data;
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let resp = data::fetchdata::FetchRequest {
-        code: "s_sh000001,s_sz399001,nf_IF0,rt_hkHSI,gb_$dji,gb_ixic,b_SX5E,b_UKX,b_NKY,hf_CL,hf_GC,hf_SI,hf_CAD".to_string(),
-        fetch_type: data::fetchdata::FetchType::RealTime,
+    let args: Vec<String> = env::args().collect();
+    if args.len() < 3 {
+        eprintln!("Usage: {} <website> <stock>", args[0]);
+        return Ok(());
+    }
+
+    let website = &args[1]; // First argument: website
+    let stock = &args[2];   // Second argument: stock
+
+    // Fetch data based on the website
+    let resp = match website.as_str() {
+        "sina" => data::fetchdata::FetchRequest {
+            code: stock.to_string(),
+            fetch_type: data::fetchdata::FetchType::RealTime,
         }
         .fetch_sina()
-        .await?;
+        .await?,
+        "tencent" => data::fetchdata::FetchRequest {
+            code: stock.to_string(),
+            fetch_type: data::fetchdata::FetchType::RealTime,
+        }
+        .fetch_tencent()
+        .await?,
+        _ => {
+            eprintln!("Unsupported website: {}", website);
+            return Ok(());
+        }
+    };
+
     println!("{:?}", resp); // Handle or print the StockData result
     Ok(())
 }

@@ -36,7 +36,7 @@ impl FetchRequest {
         };
         
         println!("{:#?}", url);
-        let headers = make_headers();
+        let headers = make_headers(url.as_str());
         let client = reqwest::Client::new();
         let request = client
             .get(url)
