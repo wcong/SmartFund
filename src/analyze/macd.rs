@@ -1,5 +1,3 @@
-// filepath: d:\SmartFund\src\analyze\macd.rs
-
 pub fn calculate_ema(prices: &[f64], period: usize) -> Vec<f64> {
     let mut ema = Vec::new();
     if prices.len() < period || period == 0 {
